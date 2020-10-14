@@ -6,6 +6,27 @@ const COOKIE_ECC = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.0000000000'
 const COOKIE_COOKIE_ECWEBSESS = 'XXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.0000000000'
 var incart = 0;
 
+function pagedown() {
+	var robot = require("robotjs");
+	robot.moveMouse(2550,1361);
+	robot.mouseClick("left","false");
+}
+
+function line_Order() {
+	var robot = require("robotjs");
+	robot.moveMouse(996, 208);
+	robot.moveMouseSmooth(922, 160);
+	robot.mouseClick("left","false");
+	robot.moveMouse(1271, 975);
+	robot.mouseClick("left","false");
+}
+
+function address_confirm() {
+	var robot = require("robotjs");
+	robot.moveMouse(1292,1032);
+	robot.mouseClick("left","false");
+}
+
 async function test () {
   // console.log('env:')
   // console.log('  PROD_ID:', productionId)
@@ -33,6 +54,10 @@ async function test () {
     var open = require("open")
 
     open("https://ecssl.pchome.com.tw/sys/cflow/fsindex/BigCar/BIGCAR/ItemList", "chrome")
+	
+	setTimeout(pagedown, 2000)
+	setTimeout(line_Order, 2000)
+	setTimeout(address_confirm, 3000)	
   }
   assert(Number(add2CartResult.PRODCOUNT) > 0 || Number(add2CartResult.PRODADD) > 0)
 
