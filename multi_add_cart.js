@@ -52,10 +52,7 @@ async function test () {
   // 成功加入購物車，跳出結帳網頁，手動結帳。
   if(incart == process.argv.slice(2)[1])
   {
-    // var open = require("open")
-
-    // open("https://ecssl.pchome.com.tw/sys/cflow/fsindex/BigCar/BIGCAR/ItemList", "chrome")
-	
+	console.log("number correct, start process checkout")
 	// setTimeout(pagedown, 2000)
 	// setTimeout(line_Order, 2000)
 	// setTimeout(address_confirm, 3000)	
@@ -70,11 +67,11 @@ async function test () {
 		CouponInfo: JSON.stringify({ prodCouponData: [] }),
 		PrimePriceInfo: JSON.stringify(primePriceInfo)
 	  })
-	console.log((res.shoppingFee) ? '要運費' : '免運費')
-	console.log((res.payment.COD.status === 'Y') ? '可貨到付款' : '不可貨到付款')
-	if (res.shoppingFee /* 需要運費 */ || res.payment.COD.status === 'N' /* 無法貨到付款 */) {
-		return console.log('取消流程')
-	}
+	// console.log((res.shoppingFee) ? '要運費' : '免運費')
+	// console.log((res.payment.COD.status === 'Y') ? '可貨到付款' : '不可貨到付款')
+	// if (res.shoppingFee /* 需要運費 */ || res.payment.COD.status === 'N' /* 無法貨到付款 */) {
+		// return console.log('取消流程')
+	// }
 
 	// 送出訂單
 	const result = await api.order({
@@ -88,6 +85,14 @@ async function test () {
     recZip: '30010',
     recAddress: '新竹市東區大學路1001號'
   })
+	
+	if (result.status === 'ERR') {
+    throw new Error(result.msg)
+  }
+  console.log(result)
+	var open = require("open")
+
+    open("https://ecvip.pchome.com.tw/web/order/all", "chrome")
   }
   assert(Number(add2CartResult.PRODCOUNT) > 0 || Number(add2CartResult.PRODADD) > 0)
 
@@ -96,4 +101,4 @@ async function test () {
    */
 }
 
-test().catch(() => process.exit(1))
+test().catch(console.error)
